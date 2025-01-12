@@ -12,15 +12,12 @@ import ru.practicum.exceptions.BadRequestException;
 import ru.practicum.model.Action;
 
 import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
 public class StatsServiceImpl implements StatsService {
-    private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd hh:mm:ss");
-
     private final StatsRepository repository;
     private final ModelMapper mapper;
 

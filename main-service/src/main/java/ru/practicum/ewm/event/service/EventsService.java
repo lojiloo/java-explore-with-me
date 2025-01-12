@@ -1,6 +1,7 @@
 package ru.practicum.ewm.event.service;
 
 import ru.practicum.ewm.event.dto.*;
+import ru.practicum.ewm.event.model.Event;
 import ru.practicum.ewm.request.dto.EventRequestStatusUpdateRequest;
 import ru.practicum.ewm.request.dto.EventRequestStatusUpdateResult;
 import ru.practicum.ewm.request.dto.ParticipationRequestDto;
@@ -28,5 +29,13 @@ public interface EventsService {
     EventFullDto updateUsersEventAdmin(UpdateEventAdminRequest request, Integer eventId);
 
     EventRequestStatusUpdateResult updateUsersEventRequestsByEventId(EventRequestStatusUpdateRequest request, Integer userId, Integer eventId);
+
+    void disableCommentsOnEvent(Event event);
+
+    void enableCommentsOnEvent(Event event);
+
+    Event findById(Integer eventId);
+
+    Boolean contains(Integer eventId);
 
 }

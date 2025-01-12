@@ -53,6 +53,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User findById(Integer userId) {
+        return usersRepository.findById(userId).orElseThrow(
+                () -> new NotFoundException(String.format("User with id=%d was not found", userId))
+        );
+    }
+
+    @Override
     public void deleteUserById(Integer id) {
         User user = usersRepository.findById(id).orElseThrow(
                 () -> new NotFoundException(String.format("User with id=%d was not found", id))

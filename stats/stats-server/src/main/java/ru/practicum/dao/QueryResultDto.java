@@ -10,7 +10,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class QueryResultDto {
-    String app;
-    String uri;
-    Long hits;
+    private String app;
+    private String uri;
+    private Long hits;
 }

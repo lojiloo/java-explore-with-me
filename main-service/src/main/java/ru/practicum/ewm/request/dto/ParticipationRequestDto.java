@@ -12,12 +12,12 @@ import java.time.LocalDateTime;
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ParticipationRequestDto {
-    Integer id;
+    private Integer id;
     @JsonProperty("event")
-    Integer eventId;
+    private Integer eventId;
     @JsonProperty("requester")
-    Integer userId;
-    Status status;
+    private Integer userId;
+    private Status status;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime created;
+    private LocalDateTime created;
 }

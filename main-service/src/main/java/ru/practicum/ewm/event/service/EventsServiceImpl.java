@@ -14,6 +14,7 @@ import ru.practicum.StatsClient;
 import ru.practicum.dto.ReturnStatsDto;
 import ru.practicum.ewm.category.model.Category;
 import ru.practicum.ewm.category.repository.CategoriesRepository;
+import ru.practicum.ewm.error.exceptions.BadRequestException;
 import ru.practicum.ewm.error.exceptions.ConditionsViolationException;
 import ru.practicum.ewm.error.exceptions.NotFoundException;
 import ru.practicum.ewm.error.exceptions.ValidationException;
@@ -86,6 +87,7 @@ public class EventsServiceImpl implements EventsService {
                 .title(request.getTitle())
                 .createdOn(LocalDateTime.now())
                 .paid(request.getPaid() != null && request.getPaid())
+                .isCommentPermitted(request.getIsCommentPermitted() == null || request.getIsCommentPermitted())
                 .build();
 
         eventsRepository.save(event);
@@ -183,9 +185,7 @@ public class EventsServiceImpl implements EventsService {
 
     @Override
     public EventFullDto getEventById(Integer id) {
-        Event event = eventsRepository.findById(id).orElseThrow(
-                () -> new NotFoundException(String.format("Event with id=%d was not found", id))
-        );
+        Event event = findById(id);
 
         if (!event.getState().equals(State.PUBLISHED)) {
             log.error("Запрос отклонён, поскольку событие ещё не опубликовано: {}", event.getState());
@@ -210,9 +210,7 @@ public class EventsServiceImpl implements EventsService {
 
     @Override
     public EventFullDto getUsersEventById(Integer userId, Integer eventId) {
-        Event event = eventsRepository.findByIdAndInitiatorId(eventId, userId).orElseThrow(
-                () -> new NotFoundException(String.format("Event with id=%d was not found", eventId))
-        );
+        Event event = findById(eventId);
 
         setViewsForEvent(event);
         setConfirmedRequestsCountForEvent(event);
@@ -230,9 +228,7 @@ public class EventsServiceImpl implements EventsService {
 
     @Override
     public EventFullDto updateUsersEventPrivate(UpdateEventUserRequest request, Integer userId, Integer eventId) {
-        Event event = eventsRepository.findById(eventId).orElseThrow(
-                () -> new NotFoundException(String.format("Event with id=%d was not found", eventId))
-        );
+        Event event = findById(eventId);
 
         if (event.getState().equals(State.PUBLISHED)) {
             log.error("Событие уже опубликовано, изменения запрещены: event.getState={}", event.getState());
@@ -274,6 +270,9 @@ public class EventsServiceImpl implements EventsService {
         if (request.getTitle() != null) {
             event.setTitle(request.getTitle());
         }
+        if (request.getIsCommentPermitted() != null) {
+            event.setIsCommentPermitted(request.getIsCommentPermitted());
+        }
 
         eventsRepository.save(event);
 
@@ -293,9 +292,7 @@ public class EventsServiceImpl implements EventsService {
 
     @Override
     public EventFullDto updateUsersEventAdmin(UpdateEventAdminRequest request, Integer eventId) {
-        Event event = eventsRepository.findById(eventId).orElseThrow(
-                () -> new NotFoundException(String.format("Event with id=%d was not found", eventId))
-        );
+        Event event = findById(eventId);
 
         if (request.getAnnotation() != null) {
             event.setAnnotation(request.getAnnotation());
@@ -332,6 +329,9 @@ public class EventsServiceImpl implements EventsService {
         if (request.getTitle() != null) {
             event.setTitle(request.getTitle());
         }
+        if (request.getIsCommentPermitted() != null) {
+            event.setIsCommentPermitted(request.getIsCommentPermitted());
+        }
 
         if (request.getStateAction() != null) {
             StateAction stateAction = request.getStateAction();
@@ -362,9 +362,7 @@ public class EventsServiceImpl implements EventsService {
 
     @Override
     public EventRequestStatusUpdateResult updateUsersEventRequestsByEventId(EventRequestStatusUpdateRequest request, Integer userId, Integer eventId) {
-        Event event = eventsRepository.findById(eventId).orElseThrow(
-                () -> new NotFoundException(String.format("Event with id=%d was not found", eventId))
-        );
+        Event event = findById(eventId);
         if (isParticipantLimitReached(event)) {
             throw new ConditionsViolationException("На данное событие набор окончен: лимит заявок достигнут");
         }
@@ -387,6 +385,40 @@ public class EventsServiceImpl implements EventsService {
             default:
                 return processRejectedRequests(event, requests);
         }
+    }
+
+    @Override
+    public void disableCommentsOnEvent(Event event) throws BadRequestException {
+        if (!event.getIsCommentPermitted()) {
+            throw new BadRequestException("Комментарии для данного события уже отключены");
+        }
+
+        event.setIsCommentPermitted(false);
+        eventsRepository.save(event);
+        log.info("Комментирование события с id={} отключено", event.getId());
+    }
+
+    @Override
+    public void enableCommentsOnEvent(Event event) throws BadRequestException {
+        if (event.getIsCommentPermitted()) {
+            throw new BadRequestException("Комментарии для данного события уже разрешены");
+        }
+
+        event.setIsCommentPermitted(true);
+        eventsRepository.save(event);
+        log.info("Комментирование события с id={} вновь доступно", event.getId());
+    }
+
+    @Override
+    public Event findById(Integer eventId) {
+        return eventsRepository.findById(eventId).orElseThrow(
+                () -> new NotFoundException(String.format("Event with id=%d was not found", eventId))
+        );
+    }
+
+    @Override
+    public Boolean contains(Integer eventId) {
+        return eventsRepository.existsById(eventId);
     }
 
     private Sort extractSort(EventPublicParamDto.Sort s) {

@@ -1,9 +1,7 @@
 package ru.practicum.ewm.event.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import lombok.AccessLevel;
 import lombok.Data;
-import lombok.experimental.FieldDefaults;
 import ru.practicum.ewm.category.dto.CategoryDto;
 import ru.practicum.ewm.event.dto.enums.State;
 import ru.practicum.ewm.event.model.Location;
@@ -12,25 +10,24 @@ import ru.practicum.ewm.user.dto.UserShortDto;
 import java.time.LocalDateTime;
 
 @Data
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public class EventFullDto {
-    String annotation;
-    CategoryDto category;
-    Integer confirmedRequests = 0;
+    private String annotation;
+    private CategoryDto category;
+    private Integer confirmedRequests = 0;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime createdOn;
-    String description;
+    private LocalDateTime createdOn;
+    private String description;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime eventDate;
-    Integer id;
-    UserShortDto initiator;
-    Location location;
-    Boolean paid;
-    Integer participantLimit;
+    private LocalDateTime eventDate;
+    private Integer id;
+    private UserShortDto initiator;
+    private Location location;
+    private Boolean paid;
+    private Integer participantLimit;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    LocalDateTime publishedOn;
-    Boolean requestModeration;
-    State state;
-    String title;
-    Integer views = 0;
+    private LocalDateTime publishedOn;
+    private Boolean requestModeration;
+    private State state;
+    private String title;
+    private Integer views = 0;
 }

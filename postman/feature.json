@@ -1,0 +1,1072 @@
+{
+	"info": {
+		"_postman_id": "55e5f588-8d38-41f3-9bfd-f90032ecef0a",
+		"name": "feature",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "37361758"
+	},
+	"item": [
+		{
+			"name": "Создание пользователя 1",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json(); //тело ответа\r",
+							"pm.environment.set(\"uid_1\", body.id);\r",
+							"\r",
+							"pm.test(\"Создание пользователя: код статуса CREATED 201, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Поля name, emial ответа идентичны тем же полям запроса\", ()  => {\r",
+							"    pm.expect(body.name).to.be.a(\"string\");\r",
+							"    pm.expect(body.name).to.eql(\"Test Dodo Bugster\");\r",
+							"\r",
+							"    pm.expect(body.email).to.be.a(\"string\");\r",
+							"    pm.expect(body.email).to.eql(\"qwerty@iikl.com\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{user_email}}\",\r\n    \"name\": \"{{user_name}}\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/admin/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"admin",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание пользователя 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"pm.environment.set(\"uid_2\", body.id);\r",
+							"\r",
+							"pm.test(\"Поля name, emial ответа идентичны тем же полям запроса\", ()  => {\r",
+							"    pm.expect(body.name).to.be.a(\"string\");\r",
+							"    pm.expect(body.name).to.eql(\"Test Dodo Bugster2\");\r",
+							"\r",
+							"    pm.expect(body.email).to.be.a(\"string\");\r",
+							"    pm.expect(body.email).to.eql(\"qwerty@iikl.com2\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"{{user_email}}2\",\r\n    \"name\": \"{{user_name}}2\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/admin/users",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"admin",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание категории для события",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"pm.environment.set(\"cat_id\", body.id);\r",
+							"\r",
+							"pm.test(\"Создание категории: код статуса CREATED 201, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"оле name ответа идентично тому же полю запроса\", () => {\r",
+							"    pm.expect(body.name).to.be.a(\"string\");\r",
+							"    pm.expect(body.name).to.eql(\"java\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"java\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/admin/categories",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"admin",
+						"categories"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание события",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"pm.environment.set(\"eid\", body.id);\r",
+							"\r",
+							"pm.test(\"Создание события: код статуса CREATED 201, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Поля annotation, title, description ответа идентичны тем же полям запроса\", () => {\r",
+							"    pm.expect(body.annotation).to.be.a(\"string\");\r",
+							"    pm.expect(body.annotation).to.eql(\"Twas brillig, and the slithy toves Did gyre and gimble in the wabe: All mimsy were the borogoves, And the mome raths outgrabe.\");\r",
+							"\r",
+							"    pm.expect(body.description).to.be.a(\"string\");\r",
+							"    pm.expect(body.description).to.eql(\"Beware the Jabberwock, my son! The jaws that bite, the claws that catch! Beware the Jubjub bird, and shun The frumious Bandersnatch!\");\r",
+							"\r",
+							"    pm.expect(body.title).to.be.a(\"string\");\r",
+							"    pm.expect(body.title).to.eql(\"Jabberwocky\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"annotation\": \"{{event_annotation}}\",\r\n    \"category\": {{cat_id}},\r\n    \"description\": \"{{event_description}}\",\r\n    \"eventDate\": \"2025-10-10 20:02:05\",\r\n    \"location\": {\r\n        \"lat\": -27.5479,\r\n        \"lon\": 89.2188\r\n    },\r\n    \"title\": \"{{event_title}}\",\r\n    \"commentsPermission\": \"true\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/users/{{uid_1}}/events",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"{{uid_1}}",
+						"events"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание комментария для неопубликованного события",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Создание комментария: код статуса CONFLICT 409, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(409);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"chilling\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/users/{{uid_1}}/comments?eventId={{eid}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"{{uid_1}}",
+						"comments"
+					],
+					"query": [
+						{
+							"key": "eventId",
+							"value": "{{eid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Публикация события для комментирования",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Публикация события: статус ответа 200 OK, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Поле state == PUBLISHED\", () => {\r",
+							"    pm.expect(body.state).eql(\"PUBLISHED\");\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"stateAction\": \"PUBLISH_EVENT\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/admin/events/{{eid}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"admin",
+						"events",
+						"{{eid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание комментария 1",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"pm.environment.set(\"com1_id\", body.id);\r",
+							"\r",
+							"pm.test(\"Создание комментария: код статуса CREATED 201, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Поле text ответа идентично тому же полю запроса\", () => {\r",
+							"    pm.expect(body.text).to.be.a(\"string\");\r",
+							"    pm.expect(body.text).to.eql(\"chilling\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"chilling\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/users/{{uid_1}}/comments?eventId={{eid}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"{{uid_1}}",
+						"comments"
+					],
+					"query": [
+						{
+							"key": "eventId",
+							"value": "{{eid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Добавить лайк на комментарий",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Код статуса CREATED 201, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Поле likes в ответе == 1\", () => {\r",
+							"    pm.expect(body.likes).to.eql(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/users/{{uid_1}}/comments/{{com1_id}}/like",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"{{uid_1}}",
+						"comments",
+						"{{com1_id}}",
+						"like"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Снять лайк с комментария",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Код статуса CREATED 201, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Поле likes в ответе == 0\", () => {\r",
+							"    pm.expect(body.likes).to.eql(0);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/users/{{uid_1}}/comments/{{com1_id}}/like",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"{{uid_1}}",
+						"comments",
+						"{{com1_id}}",
+						"like"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Добавить лайк от второго пользователя",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Код статуса CREATED 201, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Поле likes в ответе == 1\", () => {\r",
+							"    pm.expect(body.likes).to.eql(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/users/{{uid_2}}/comments/{{com1_id}}/like",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"{{uid_2}}",
+						"comments",
+						"{{com1_id}}",
+						"like"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Добавить жалобу на комментарий",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Код статуса CREATED 201\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/users/{{uid_1}}/comments/{{com1_id}}/complain",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"{{uid_1}}",
+						"comments",
+						"{{com1_id}}",
+						"complain"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Админ: получить комментарий с лайком и жалобой",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Код статуса OK 200, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Поле likes в ответе == 1\", () => {\r",
+							"    pm.expect(body.likes).to.eql(1);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Поле complaints в ответе == 1\", () => {\r",
+							"    pm.expect(body.complaints).to.eql(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/admin/comments/{{com1_id}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"admin",
+						"comments",
+						"{{com1_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Добавить жалобу, чтобы комментарий попал на ревью",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Код статуса CREATED 201\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/users/{{uid_2}}/comments/{{com1_id}}/complain",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"{{uid_2}}",
+						"comments",
+						"{{com1_id}}",
+						"complain"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Админ: комментарий на ревью",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Код статуса OK 200, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В списке на ревью один элемент\", () => {\r",
+							"    pm.expect(body.length).to.eql(1);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/admin/comments/review",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"admin",
+						"comments",
+						"review"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание комментария 2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"pm.environment.set(\"com2_id\", body.id);\r",
+							"\r",
+							"pm.test(\"Создание комментария: код статуса CREATED 201, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(201);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Поле text ответа идентично тому же полю запроса\", () => {\r",
+							"    pm.expect(body.text).to.be.a(\"string\");\r",
+							"    pm.expect(body.text).to.eql(\"not ok\");\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"not ok\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/users/{{uid_1}}/comments?eventId={{eid}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"{{uid_1}}",
+						"comments"
+					],
+					"query": [
+						{
+							"key": "eventId",
+							"value": "{{eid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Изменить комментарий",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"pm.environment.set(\"com2_id\", body.id);\r",
+							"\r",
+							"pm.test(\"Изменение комментария: код статуса CREATED 200, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Поле is_updated изменило значение на true\", () => {\r",
+							"    pm.expect(body.is_updated).to.be.a(\"boolean\");\r",
+							"    pm.expect(body.is_updated).to.eql(true);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"commentId\": \"{{com2_id}}\",\r\n    \"text\": \"ok\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/users/{{uid_1}}/comments",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"{{uid_1}}",
+						"comments"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить комментарии: сортировка по BY_LIKES",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Получение комментариев: код статуса OK 200, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В списке 2 элемента\", () => {\r",
+							"    pm.expect(body.length).to.be.equal(2);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Первым идёт комментарий с наибольшим количеством лайков\", () => {\r",
+							"    pm.expect(body[0].text).to.be.equal(\"chilling\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/comments/events/{{eid}}?sort=BY_LIKES",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"comments",
+						"events",
+						"{{eid}}"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "BY_LIKES"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить комментарии: сортировка по BY_ASC",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Получение комментариев: код статуса OK 200, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В списке 2 элемента\", () => {\r",
+							"    pm.expect(body.length).to.be.equal(2);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Первым идёт комментарий с наиболее ранней датой публикации\", () => {\r",
+							"    pm.expect(body[0].text).to.be.equal(\"chilling\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/comments/events/{{eid}}?sort=BY_CREATION_DATE_ASC",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"comments",
+						"events",
+						"{{eid}}"
+					],
+					"query": [
+						{
+							"key": "sort",
+							"value": "BY_CREATION_DATE_ASC"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить комментарии: сортировка по BY_DESC (по умолчанию)",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const body = pm.response.json();\r",
+							"\r",
+							"pm.test(\"Получение комментариев: код статуса OK 200, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"    pm.response.to.be.withBody;\r",
+							"    pm.response.to.be.json;\r",
+							"});\r",
+							"\r",
+							"pm.test(\"В списке 2 элемента\", () => {\r",
+							"    pm.expect(body.length).to.be.equal(2);\r",
+							"});\r",
+							"\r",
+							"pm.test(\"Первым идёт комментарий с наиболее поздней датой публикации\", () => {\r",
+							"    pm.expect(body[0].text).to.be.equal(\"ok\");\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/comments/events/{{eid}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"comments",
+						"events",
+						"{{eid}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Запретить комментирование события",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Запретить комментирование: статус ответа OK 200\", () => {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"url": {
+					"raw": "{{host}}/users/{{uid_1}}/comments/disable?eventId={{eid}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"{{uid_1}}",
+						"comments",
+						"disable"
+					],
+					"query": [
+						{
+							"key": "eventId",
+							"value": "{{eid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Создание комментария для события с запретом на комментирование",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Создание комментария: код статуса CONFLICT 409, ответ в формате JSON\", () => {\r",
+							"    pm.response.to.have.status(409);\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"text\": \"not permitted comment\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{host}}/users/{{uid_2}}/comments?eventId={{eid}}",
+					"host": [
+						"{{host}}"
+					],
+					"path": [
+						"users",
+						"{{uid_2}}",
+						"comments"
+					],
+					"query": [
+						{
+							"key": "eventId",
+							"value": "{{eid}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"packages": {},
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://localhost:8080",
+			"type": "string"
+		},
+		{
+			"key": "user_email",
+			"value": "qwerty@iikl.com",
+			"type": "string"
+		},
+		{
+			"key": "user_name",
+			"value": "Test Dodo Bugster",
+			"type": "string"
+		},
+		{
+			"key": "event_annotation",
+			"value": "Twas brillig, and the slithy toves Did gyre and gimble in the wabe: All mimsy were the borogoves, And the mome raths outgrabe.",
+			"type": "string"
+		},
+		{
+			"key": "event_description",
+			"value": "Beware the Jabberwock, my son! The jaws that bite, the claws that catch! Beware the Jubjub bird, and shun The frumious Bandersnatch!",
+			"type": "string"
+		},
+		{
+			"key": "event_title",
+			"value": "Jabberwocky",
+			"type": "string"
+		}
+	]
+}

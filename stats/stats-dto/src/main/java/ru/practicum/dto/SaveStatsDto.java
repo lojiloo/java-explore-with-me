@@ -12,11 +12,11 @@ import lombok.Setter;
 @AllArgsConstructor
 public class SaveStatsDto {
     @NotBlank
-    String app;
+    private String app;
     @NotBlank
     @Size(max = 100)
-    String uri;
+    private String uri;
     @NotBlank
     @Pattern(regexp = "^((25[0-5]|(2[0-4]|1\\d|[1-9]|)\\d)\\.?\\b){4}$")
-    String ip;
+    private String ip;
 }

@@ -52,6 +52,8 @@ public class Event {
     private LocalDateTime publishedOn;
     @Enumerated(value = EnumType.STRING)
     private State state;
+    @Column(name = "comments_permission")
+    private Boolean isCommentPermitted;
 
     @Transient
     private int confirmedRequests;
